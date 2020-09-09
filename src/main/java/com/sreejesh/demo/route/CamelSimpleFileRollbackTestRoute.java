@@ -1,5 +1,6 @@
 package com.sreejesh.demo.route;
 
+import com.sreejesh.synchro.DummySync;
 import com.sreejesh.synchro.FileRollback;
 import org.apache.camel.Exchange;
 import org.apache.camel.LoggingLevel;
@@ -31,6 +32,7 @@ public class CamelSimpleFileRollbackTestRoute extends RouteBuilder {
 		from("file://{{inputFolder}}?delay=10s&noop=true")
 		.routeId("FileRollbackTestRoute")
 		.process(exchange -> exchange.getUnitOfWork().addSynchronization(new FileRollback()))
+		.process(exchange -> exchange.getUnitOfWork().addSynchronization(new DummySync()))
 		.log("***** header.CamelFileNameOnly: ${header.CamelFileNameOnly}")
 //		.log("***** InputFolderToTestSedaRoute - exchangeProperty.myProperty:${exchangeProperty.myProperty}")
 //		.log("***** InputFolderToTestSedaRoute - exchangeId:${exchangeId}")
